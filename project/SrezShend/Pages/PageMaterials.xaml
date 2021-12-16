@@ -1,0 +1,173 @@
+﻿<Page x:Class="SrezShend.Pages.PageMaterials"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SrezShend.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PageMaterials">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60px"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="60px"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBox 
+                x:Name="tbFind" 
+                Margin="10" 
+                TextChanged="tbFind_TextChanged"
+                Grid.Column="0"
+                VerticalContentAlignment="Center"/>
+            
+            <ComboBox 
+                Name="cbFilter" 
+                Margin="10" 
+                SelectionChanged="cbFilter_SelectionChanged"
+                Grid.Column="1"/>
+            
+            <ComboBox 
+                Name="cbSort" 
+                Margin="10" 
+                SelectionChanged="cbSort_SelectionChanged" 
+                Grid.Column="2"/>
+            <StackPanel VerticalAlignment="Center" 
+                        HorizontalAlignment="Center"
+                        Grid.Column="3">
+                <RadioButton 
+                    x:Name="rbAsc" 
+                    Content="По возрастанию" 
+                    IsChecked="True" 
+                    Click="radioButton_Click"/>
+                <RadioButton 
+                    x:Name="rbDesc"
+                    Content="По убыванию"
+                    Click="radioButton_Click"/>
+            </StackPanel>
+            <StackPanel 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center" 
+                Orientation="Horizontal"
+                Grid.Column="4">
+                <TextBlock FontSize="15" Text="Записей: "/>
+                <TextBlock FontSize="15" x:Name="tbCount" Text="0"/>
+                <TextBlock FontSize="15" Text=". Всего: "/>
+                <TextBlock FontSize="15" x:Name="tbCountAll" Text="0"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="AddMat"  
+                    Content="Добавить" 
+                    Click="AddMat_Click" 
+                    Background="#FFA5E887"
+                    Grid.Column="0"/>
+            <Button x:Name="EditMat" 
+                    Content="Изменить" 
+                    Click="EditMat_Click"  
+                    Background="#FFA5E887"
+                    Grid.Column="1"/>
+            <!--<Button x:Name="DelMat" 
+                    Content="Удалить" 
+                    Click="DelMat_Click" 
+                    Background="#FFA5E887"/>-->
+
+            <Grid Grid.Column="3" Name="gridSwitcher" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Center"/>
+
+        </Grid>
+        <ListBox x:Name="lbMat" 
+                 Grid.Row="1" 
+                 HorizontalContentAlignment="Stretch" SelectionChanged="lbMat_SelectionChanged">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="BorderBrush" 
+                            Value="#999"/>
+                    <Setter Property="BorderThickness" 
+                            Value="2"/>
+                    <Setter Property="Margin" 
+                            Value="5"/>
+                    <Setter Property="FontSize" Value="18" />
+                    <Style.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" 
+                                    Value="5"/>
+                        </Style>
+                    </Style.Resources>
+                </Style>
+
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120px"/>
+                            <ColumnDefinition Width="600px"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="200px"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border CornerRadius="5,5,5,5" 
+                                Grid.Column="0" 
+                                Grid.RowSpan="3" 
+                                Margin="5" >
+                            <Border.Background>
+                                <ImageBrush Stretch="UniformToFill" 
+                                            ImageSource="{Binding ValidImage}" />
+                            </Border.Background>
+                        </Border>
+
+                        <StackPanel Orientation="Vertical" 
+                                    Grid.Column="1">
+
+                            <TextBlock Margin="3">
+                            <Run Text="{Binding MaterialType.Title}"/>
+                            <Run Text=" | "/>
+                            <Run Text="{Binding Title}"/>
+                            </TextBlock>
+
+                            <TextBlock  Margin="3">
+                            <Run Text="Минимальное количество: "/>
+                            <Run Text="{Binding MinCount}"/>
+                            </TextBlock>
+
+                            <!-- TODO: Добваить перенос поставщиков по строкам -->
+                            <StackPanel  Margin="3" Orientation="Horizontal">
+                                <TextBlock Text="Поставщики: " HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+                                <TextBlock TextWrapping="WrapWithOverflow" Text="{Binding ValidSuppliers, Mode=OneWay}" Width="500" />
+                            </StackPanel>
+
+                        </StackPanel>
+                        <StackPanel Grid.RowSpan="3" 
+                                    Grid.Column="3" 
+                                    HorizontalAlignment="Left" 
+                                    VerticalAlignment="Center" >
+
+                            <TextBlock  Margin="3" >
+                            <Run FontWeight="Bold" 
+                                 Text="Остаток: "/>
+                            <Run Text="{Binding CountInStock}"/>
+                            </TextBlock>
+
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</Page>
